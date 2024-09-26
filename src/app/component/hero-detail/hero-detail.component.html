@@ -1,0 +1,23 @@
+<div class="mt-10 ml-1.5 bg-base-300 rounded-2xl bg-base-300 items-center p-10">
+
+@if (hero) {
+  <!-- Interface de slection de hero -->
+  <h2 class="text-4xl font-bold ml-3">{{hero.name | uppercase}}</h2>
+  <div class="text-2xl ml-10 mt-2"><span>ID: </span>{{ hero.id }}</div>
+  <div class="text-2xl ml-10"><span>Nom: </span>{{ hero.name }}</div>
+  <h2 class="text-4xl font-bold ml-3 mt-10"> COMPÉTENCES </h2>
+  <div class="text-2xl ml-10 mt-2"><span>Attaque:</span> {{ hero.attack }}</div>
+  <div class="text-2xl ml-10"><span>Vie :</span> {{ hero.health }}</div>
+  <div class="text-2xl ml-10"><span>Défense :</span> {{ hero.defense }}</div>
+
+  <div class="flex flex-row items-center">
+    <!-- Retour BTN -->
+    <button type="button" class="btn btn-error mt-5" (click)="goBack()">Retour</button>
+
+    <!-- Modifié BTN -->
+    <a [routerLink]="['/heroeModif', hero.id]" class="flex items-center">
+      <button type="button" class="btn btn-info mt-5 ml-20" (click)="goBack()">Modifier</button>
+    </a>
+  </div>
+}
+</div>

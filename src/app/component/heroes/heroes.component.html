@@ -1,0 +1,23 @@
+<div class="heroesSection flex flex-row flex-cent gap-56">
+<!-- Bouton de selection -->
+  <div class="heros rounded-2xl bg-base-300 items-center p-10">
+    <h2 class="text-3xl m-5">Héros :</h2>
+
+    <!-- Liste des heros -->
+    <ul class="heroes">
+      @for (hero of heroes; track hero.id) {
+        <li class="ml-7 mt-3">
+          <a [routerLink]="['/heroeDetails', hero.id]" class="flex items-center">
+            <button type="button" class="btn btn-active btn-neutral"
+                    [class.btn-neutral] ="hero === selectedHero"
+                    [class.btn-primary] ="hero !== selectedHero"
+                    (click)="onSelect(hero)">
+                <span class="badge text-xl mx-1.5">{{hero.id}}</span>
+                <span class="name text-xl"> - {{hero.name}}</span>
+            </button>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

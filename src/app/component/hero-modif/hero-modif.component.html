@@ -1,0 +1,40 @@
+<div class="mt-10 ml-1.5 bg-base-300 rounded-2xl bg-base-300 items-center p-10">
+
+  @if (hero) {
+    <!-- Interface de Modification de hero -->
+    <h2 class="text-4xl font-bold ml-3">{{hero.name | uppercase}}</h2>
+    <div class="text-2xl ml-10 mt-2"><span>ID: </span>{{ hero.id }}</div>
+
+    <!-- div de modification basique -->
+    <div class="text-2xl ml-10">
+      <span>Nom:</span>
+      <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" [(ngModel)]="hero.name">
+    </div>
+    <h2 class="text-4xl font-bold ml-3 mt-10"> COMPÉTENCES </h2>
+
+    <!-- div de modification basique -->
+    <div class="text-2xl ml-10 mt-2">
+      <span>Attaque:</span>
+      <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" type="number" [(ngModel)]="hero.attack">
+    </div>
+
+    <!-- div de modification basique -->
+    <div class="text-2xl ml-10">
+      <span>Vie :</span>
+      <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" type="number" [(ngModel)]="hero.health">
+    </div>
+
+    <!-- div de modification basique -->
+    <div class="text-2xl ml-10 mb-5">
+      <span>Défense :</span>
+      <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" type="number" [(ngModel)]="hero.defense">
+    </div>
+
+    <!-- Gestion de la somme des compétences -->
+    @if (verifySkills()) {
+      <button type="button" class="btn btn-info mt-5" (click)="goBack()">Enregistrer</button>
+    } @else {
+      <span class="text-2xl mt-5 text-red-600 ">Les points de compétence sont limités à 40</span>
+    }
+  }
+</div>

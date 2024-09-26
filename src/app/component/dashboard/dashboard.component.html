@@ -1,0 +1,20 @@
+<div class="heroesSection flex flex-col flex-cent gap-9 items-center">
+
+  <!-- Séléction du hero dans le dashboard -->
+  <div class="flex flex-col dashboard  rounded-2xl bg-base-300 items-center p-10">
+    <h1 class="text-4xl mb-5 font-bold">Héros populaires :</h1>
+    <div>
+      @for (hero of topHeroes; track hero.id) {
+        <button class="btn btn btn-neutral m-3"
+                [class.btn-neutral] ="hero === selectedHero"
+                [class.btn-primary] ="hero !== selectedHero"
+                (click)="onSelect(hero)">
+          <a [routerLink]="['/heroeDetails', hero.id]" class="flex items-center">
+            <span class="badge text-xl mx-1.5">{{hero.id}}</span>
+            <span class="name text-xl"> - {{hero.name}}</span>
+          </a>
+        </button>
+      }
+    </div>
+  </div>
+</div>
