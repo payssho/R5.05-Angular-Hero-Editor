@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {MessagesComponent} from "./component/messages/messages.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MessagesComponent, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'durandmToH2024';
+  title = 'R5.05 Real';
 }

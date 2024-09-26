@@ -5,7 +5,11 @@
   "projects": {
     "durandmToH2024": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "path": "src/app/component"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
