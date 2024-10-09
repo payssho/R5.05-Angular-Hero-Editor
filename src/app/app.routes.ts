@@ -6,6 +6,7 @@ import {ShieldComponent} from "./component/shield/shield.component";
 import {HelmetComponent} from "./component/helmet/helmet.component";
 import {HeroDetailComponent} from "./component/hero-detail/hero-detail.component";
 import {HeroModifComponent} from "./component/hero-modif/hero-modif.component";
+import {HeroCreateComponent} from "./component/hero-create/hero-create.component";
 
 //Toutes les routes menant à des pages
 export const routes: Routes = [
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'shield', component: ShieldComponent },
   { path: 'helmet', component: HelmetComponent },
   { path: 'heroeDetails/:id', component: HeroDetailComponent },
-  { path: 'heroeModif/:id', component: HeroModifComponent }
+  { path: 'heroeModif/:id', component: HeroModifComponent },
+  { path: 'heroCreate', component: HeroCreateComponent}
 ];

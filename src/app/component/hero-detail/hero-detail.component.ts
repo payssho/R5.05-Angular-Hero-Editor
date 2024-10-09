@@ -5,6 +5,8 @@ import {HeroInterface} from "../../data/heroInterface";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {HeroService} from "../../services/hero.service";
 import { Location } from '@angular/common';
+import {HerointerfaceService} from "../../services/hero-interface.service";
+import {MessageService} from "../../services/message.service";
 
 @Component({
   selector: 'app-hero-detail',
@@ -24,20 +26,33 @@ export class HeroDetailComponent {
   private route = inject(ActivatedRoute);
 
   //Infos de base
-  heroId: number | undefined;
+  heroId: string | null | undefined;
   hero?: HeroInterface;
 
-  constructor(private heroService: HeroService, private location: Location) {}
+  constructor(private heroService: HerointerfaceService, private location: Location, private messageService: MessageService) {}
 
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.heroId = +params['id'];
-    })
-    this.heroService.getHeroById(this.heroId).subscribe(hero => this.hero = hero);
+    this.heroId = this.route.snapshot.paramMap.get('id');
+    if (this.heroId != null) {
+      this.heroService.getHero(this.heroId).subscribe(hero => this.hero = hero);
+    }
   }
 
+  /**
+   * Retourne sur la page précédente
+   */
   goBack(): void {
     this.location.back(); // Méthode pour revenir à la page précédente
+  }
+
+  /**
+   * Supprime un hero
+   */
+  delete () {
+    if (this.heroId != null) {
+      this.heroService.deleteHero(this.heroId);
+      this.messageService.add("Héro supprimé.")
+    }
   }
 }

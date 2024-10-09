@@ -3,6 +3,7 @@ import {HEROES} from "../data/mock-heroes";
 import {HeroInterface} from "../data/heroInterface";
 import {Observable, of} from "rxjs";
 import {MessageService} from "./message.service";
+import {doc} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'

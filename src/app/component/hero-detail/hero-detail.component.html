@@ -3,20 +3,50 @@
 @if (hero) {
   <!-- Interface de slection de hero -->
   <h2 class="text-4xl font-bold ml-3">{{hero.name | uppercase}}</h2>
-  <div class="text-2xl ml-10 mt-2"><span>ID: </span>{{ hero.id }}</div>
-  <div class="text-2xl ml-10"><span>Nom: </span>{{ hero.name }}</div>
+  <div class="text-2xl ml-10 mt-2"><span class="font-bold">ID: </span>{{ hero.id }}</div>
+  <div class="text-2xl ml-10"><span class="font-bold">Nom: </span>{{ hero.name }}</div>
   <h2 class="text-4xl font-bold ml-3 mt-10"> COMPÉTENCES </h2>
-  <div class="text-2xl ml-10 mt-2"><span>Attaque:</span> {{ hero.attack }}</div>
-  <div class="text-2xl ml-10"><span>Vie :</span> {{ hero.health }}</div>
-  <div class="text-2xl ml-10"><span>Défense :</span> {{ hero.defense }}</div>
+  <div class="text-2xl ml-10 mt-2 flex flex-row gap-2 items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-swords"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>
+    <span class="font-bold">Attaque:</span>
+    {{ hero.attack }}
+  </div>
+  <div class="text-2xl ml-10 flex flex-row gap-2 items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+    <span class="font-bold">Vie :</span>
+    {{ hero.health }}
+  </div>
+  <div class="text-2xl ml-10 flex flex-row gap-2 items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-plus"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+    <span class="font-bold">Défense :</span>
+    {{ hero.defense }}
+  </div>
 
-  <div class="flex flex-row items-center">
+  <div class="flex justify-between mt-5">
     <!-- Retour BTN -->
-    <button type="button" class="btn btn-error mt-5" (click)="goBack()">Retour</button>
+    <button type="button" class="btn btn-active btn-neutral mt-5" (click)="goBack()">Retour</button>
+
+    <!-- Suppr BTN -->
+    <button class="btn btn-active btn-error mt-5 ml-10" onclick="my_modal_5.showModal()">Supprimer</button>
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <h3 class="text-lg font-bold">Hello!</h3>
+        <p class="py-4">Voulez vous vraiment supprimer le héros ?</p>
+        <div class="modal-action">
+          <form method="dialog" class="flex flex-row">
+            <!-- if there is a button in form, it will close the modal -->
+            <a [routerLink]="['/heroes']" class="flex items-center">
+              <button type="button" class="btn btn-active btn-error mr-5" (click)="delete()">Supprimer</button>
+            </a>
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <!-- Modifié BTN -->
     <a [routerLink]="['/heroeModif', hero.id]" class="flex items-center">
-      <button type="button" class="btn btn-info mt-5 ml-20" (click)="goBack()">Modifier</button>
+      <button type="button" class="btn btn-info mt-5 ml-10" (click)="goBack()">Modifier</button>
     </a>
   </div>
 }

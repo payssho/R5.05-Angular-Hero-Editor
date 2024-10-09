@@ -5,7 +5,7 @@
 
     <!-- Liste des heros -->
     <ul class="heroes">
-      @for (hero of heroes; track hero.id) {
+      @for (hero of heroes; track hero.id;) {
         <li class="ml-7 mt-3">
           <a [routerLink]="['/heroeDetails', hero.id]" class="flex items-center">
             <button type="button" class="btn btn-active btn-neutral"
@@ -19,5 +19,8 @@
         </li>
       }
     </ul>
+    <a [routerLink]="['/heroCreate']" class="flex items-center">
+      <button type="button" class="btn btn-active btn-neutral text-xl m-5"> Créer un héros</button>
+    </a>
   </div>
 </div>

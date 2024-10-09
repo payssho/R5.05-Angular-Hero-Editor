@@ -4,6 +4,7 @@ import {HeroDetailComponent} from "../hero-detail/hero-detail.component";
 import {HeroService} from "../../services/hero.service";
 import {MessageService} from "../../services/message.service";
 import {RouterLink} from "@angular/router";
+import {HerointerfaceService} from "../../services/hero-interface.service";
 
 @Component({
   selector: 'app-heroes',
@@ -20,14 +21,23 @@ import {RouterLink} from "@angular/router";
 export class HeroesComponent {
 
   //MAIN
-  heroes: HeroInterface[] | undefined;
+  heroes: HeroInterface[] = [];
   selectedHero?: HeroInterface;
 
-  constructor(private heroService: HeroService, private messageService: MessageService) {}
+  constructor(private heroService: HerointerfaceService, private messageService: MessageService) {}
 
   //SETUP
   ngOnInit(): void {
-    this.getHeroes();
+    // this.getHeroes();
+    this.heroService.getHeroes()
+      .subscribe(
+        (heroes: HeroInterface[]) => {
+          this.heroes = heroes;
+        },
+        error => {
+          console.error("Erreur lors de la récupération des héros :", error);
+        }
+      );
   }
 
   //SELECTION D'UN HERO
@@ -38,8 +48,8 @@ export class HeroesComponent {
 
 
   //GETTER
-  getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes);
-  }
+  // getHeroes(): void {
+  //   this.heroService.getHeroes()
+  //     .subscribe(heroes => this.heroes = heroes);
+  // }
 }
