@@ -59,7 +59,6 @@ export class WeaponService {
   addWeapon(weapon: WeaponInterface): void {
     // get a reference to the weapon collection
     const weaponCollection = collection(this.firestore, WeaponService.url);
-
     addDoc(weaponCollection, weapon);
   }
 
@@ -71,7 +70,7 @@ export class WeaponService {
     // Récupération du DocumentReference
     const weaponDocument = doc(this.firestore, WeaponService.url + "/" + weapon.id);
     // Update du document à partir du JSON et du documentReference
-    let newWeaponJSON = {id: weapon.id, name: weapon.name, range: weapon.range, damage: weapon.damage, speed: weapon.speed};
+    let newWeaponJSON = {id: weapon.id, name: weapon.name, range: weapon.range, damage: weapon.damage, speed: weapon.speed, favorite: weapon.favorite};
     updateDoc(weaponDocument, newWeaponJSON);
   }
 }

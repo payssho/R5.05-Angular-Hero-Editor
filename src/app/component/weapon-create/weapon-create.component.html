@@ -1,38 +1,47 @@
-<div class="mt-10 ml-1.5 bg-base-300 rounded-2xl items-center p-10">
-  <h2 class="text-4xl font-bold ml-3">Créer une arme</h2>
+@if (weaponForm) {
+  <form [formGroup]="weaponForm" (ngSubmit)="saveWeapon()">
+    <div class="mt-10 ml-1.5 bg-base-300 rounded-2xl items-center p-10">
+      <h2 class="text-4xl font-bold ml-3">Créer une arme</h2>
 
-  @if (weapon) {
-    <div class="text-2xl ml-10">
-      <span class="font-bold">Nom:</span>
-      <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" [(ngModel)]="weapon.name" placeholder="Nom de l'arme">
+      @if (weapon) {
+        <div class="text-2xl ml-10">
+          <span class="font-bold">Nom:</span>
+          <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" [(ngModel)]="weapon.name" placeholder="Nom de l'arme">
+          @if (name?.valid && (name?.touched || name?.dirty)) {
+            <small>Le nom est obligatoire</small>
+          }
+        </div>
+      }
+      <h2 class="text-4xl font-bold ml-3 mt-10">STATISTIQUES</h2>
+      <span class="text-xl">Total des points de compétence : {{this.totalStats}}</span>
+      <br>
+      <span>(total doit être = 0)</span>
+
+      <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
+        <span class="font-bold">Dégâts :</span>
+        <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('damage')">-</div>
+        <span class="font-bold">{{ damage }}</span>
+        <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('damage')">+</div>
+      </div>
+
+      <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
+        <span class="font-bold">Portée :</span>
+        <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('range')">-</div>
+        <span class="font-bold">{{ range }}</span>
+        <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('range')">+</div>
+      </div>
+
+      <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
+        <span class="font-bold">Vitesse :</span>
+        <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('speed')">-</div>
+        <span class="font-bold">{{ speed }}</span>
+        <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('speed')">+</div>
+      </div>
+
+      <div class="flex justify-between mt-5">
+        <button type="button" class="btn btn-error" (click)="back()">Retour</button>
+        <button type="submit" [disabled]="weaponForm.invalid" class="btn btn-info" (click)="saveWeapon()">Enregistrer</button>
+      </div>
     </div>
-  }
-  <h2 class="text-4xl font-bold ml-3 mt-10">STATISTIQUES</h2>
-  <span class="text-xl">Points de compétence restants : {{ totalPoints }}</span>
-
-  <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
-    <span class="font-bold">Dégâts :</span>
-    <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('damage')">-</div>
-    <span class="font-bold">{{ damage }}</span>
-    <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('damage')">+</div>
-  </div>
-
-  <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
-    <span class="font-bold">Portée :</span>
-    <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('range')">-</div>
-    <span class="font-bold">{{ range }}</span>
-    <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('range')">+</div>
-  </div>
-
-  <div class="text-2xl ml-10 mt-5 flex flex-row gap-2 items-center">
-    <span class="font-bold">Vitesse :</span>
-    <div class="badge badge-neutral hover:bg-red-700 cursor-pointer" (click)="decrease('speed')">-</div>
-    <span class="font-bold">{{ speed }}</span>
-    <div class="badge badge-neutral hover:bg-green-700 cursor-pointer" (click)="increase('speed')">+</div>
-  </div>
-
-  <div class="flex justify-between mt-5">
-    <button type="button" class="btn btn-error" (click)="back()">Retour</button>
-    <button type="button" class="btn btn-info" (click)="saveWeapon()">Enregistrer</button>
-  </div>
-</div>
+  </form>
+}

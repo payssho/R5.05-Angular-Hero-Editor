@@ -43,7 +43,7 @@ export class WeaponModifComponent {
       this.weaponService.getWeapon(this.weaponId).subscribe(weapon => {
         this.weapon = weapon;
         if (this.weapon != undefined) {
-          this.totalStats = 40 - (this.weapon.damage + this.weapon.range + this.weapon.speed);
+          this.totalStats = 0 - (this.weapon.damage + this.weapon.range + this.weapon.speed);
           this.damage = this.weapon.damage || 0;
           this.range = this.weapon.range || 0;
           this.speed = this.weapon.speed || 0;
@@ -60,31 +60,35 @@ export class WeaponModifComponent {
     if (this.damage == null || this.range == null || this.speed == null) {
       return;
     }
+
     switch (type) {
       case 'damage':
-        if (this.totalStats! > 0) {
+        if (this.damage < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.damage++;
           this.totalStats!--;
         } else {
-          this.messageService.add("Les points de caractéristique sont limités à 40");
+          this.messageService.add("Les dégâts ne peuvent pas dépasser 5 ou plus de points disponibles");
         }
         break;
+
       case 'range':
-        if (this.totalStats! > 0) {
+        if (this.range < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.range++;
           this.totalStats!--;
         } else {
-          this.messageService.add("Les points de caractéristique sont limités à 40");
+          this.messageService.add("La portée ne peut pas dépasser 5 ou plus de points disponibles");
         }
         break;
+
       case 'speed':
-        if (this.totalStats! > 0) {
+        if (this.speed < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.speed++;
           this.totalStats!--;
         } else {
-          this.messageService.add("Les points de caractéristique sont limités à 40");
+          this.messageService.add("La vitesse ne peut pas dépasser 5 ou plus de points disponibles");
         }
         break;
+
       default:
         break;
     }
@@ -101,46 +105,55 @@ export class WeaponModifComponent {
 
     switch (type) {
       case 'damage':
-        if (this.damage > 1) {
+        if (this.damage > -5) {  // Limite à -5
           this.damage--;
-          this.totalStats!++;
+          this.totalStats!--;
         } else {
-          this.messageService.add("Une caractéristique ne peut pas être < 1");
+          this.messageService.add("Les dégâts ne peuvent pas être inférieurs à -5");
         }
         break;
+
       case 'range':
-        if (this.range > 1) {
+        if (this.range > -5) {  // Limite à -5
           this.range--;
-          this.totalStats!++;
+          this.totalStats!--;
         } else {
-          this.messageService.add("Une caractéristique ne peut pas être < 1");
+          this.messageService.add("La portée ne peut pas être inférieure à -5");
         }
         break;
+
       case 'speed':
-        if (this.speed > 1) {
+        if (this.speed > -5) {  // Limite à -5
           this.speed--;
-          this.totalStats!++;
+          this.totalStats!--;
         } else {
-          this.messageService.add("Une caractéristique ne peut pas être < 1");
+          this.messageService.add("La vitesse ne peut pas être inférieure à -5");
         }
         break;
+
       default:
         break;
     }
   }
 
+
   /**
    * Enregistre en base les modifications de l'arme
    */
   saveWeapon(): void {
-    if (this.weapon) {
-      this.weapon.damage = this.damage ?? 0;
-      this.weapon.range = this.range ?? 0;
-      this.weapon.speed = this.speed ?? 0;
-      this.weaponService.updateWeapon(this.weapon);
+    if (this.totalStats === 0) {
+      if (this.weapon) {
+        this.weapon.damage = this.damage ?? 0;
+        this.weapon.range = this.range ?? 0;
+        this.weapon.speed = this.speed ?? 0;
+        this.weaponService.updateWeapon(this.weapon);
+      }
+      this.messageService.add("Modification enregistrée !");
+      this.location.back();
+    } else {
+      this.messageService.add("La somme de l’attaque, vitesse et portée doit être égale à 0 !");
     }
-    this.messageService.add("Modification enregistrée !");
-    this.location.back();
+
   }
 
   /**
