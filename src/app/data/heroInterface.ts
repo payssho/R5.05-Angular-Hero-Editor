@@ -4,4 +4,5 @@ export interface HeroInterface {
   attack: number;
   health: number;
   defense: number;
+  favorite: boolean;
 }

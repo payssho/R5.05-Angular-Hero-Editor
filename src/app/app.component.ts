@@ -11,4 +11,5 @@ import {MessagesComponent} from "./component/messages/messages.component";
 })
 export class AppComponent {
   title = 'R5.05 Real';
+  isDropdownOpen = false;
 }

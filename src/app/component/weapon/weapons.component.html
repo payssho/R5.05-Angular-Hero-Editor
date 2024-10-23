@@ -1,0 +1,25 @@
+<div class="weaponsSection flex flex-row flex-cent gap-56">
+  <!-- Bouton de selection -->
+  <div class="weapons rounded-2xl bg-base-300 items-center p-10">
+    <h2 class="text-3xl m-5">Armes :</h2>
+
+    <!-- Liste des armes -->
+    <ul class="weapons">
+      @for (weapon of weapons; track weapon.id;) {
+        <li class="ml-7 mt-3">
+          <a [routerLink]="['/weaponDetails', weapon.id]" class="flex items-center">
+            <button type="button" class="btn btn-active btn-neutral"
+                    [class.btn-neutral] ="weapon === selectedWeapon"
+                    [class.btn-primary] ="weapon !== selectedWeapon"
+                    (click)="onSelect(weapon)">
+              <span class="name text-xl"> - {{weapon.name}}</span>
+            </button>
+          </a>
+        </li>
+      }
+    </ul>
+    <a [routerLink]="['/weaponCreate']" class="flex items-center">
+      <button type="button" class="btn btn-active btn-neutral text-xl m-5"> Créer une armes</button>
+    </a>
+  </div>
+</div>
