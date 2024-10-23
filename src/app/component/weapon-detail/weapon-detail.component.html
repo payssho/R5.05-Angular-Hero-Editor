@@ -1,0 +1,59 @@
+<div class="mt-10 ml-1.5 bg-base-300 rounded-2xl bg-base-300 items-center p-10">
+
+  @if (weapon) {
+    <!-- Interface de sélection de l'arme -->
+    <div class="flex flex-row items-center">
+      <h2 class="text-4xl font-bold ml-3">DÉTAIL DE L'ARME</h2>
+      <div class="flex items-center">
+        <button (click)="updateFavorite()" class="focus:outline-none ml-6">
+          <svg xmlns="http://www.w3.org/2000/svg" [ngClass]="isFavorite ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500 transition-colors duration-200'" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="text-2xl ml-10"><span class="font-bold">Nom: </span>{{ weapon.name }}</div>
+    <h2 class="text-4xl font-bold ml-3 mt-10"> CARACTÉRISTIQUES </h2>
+    <div class="text-2xl ml-10 mt-2 flex flex-row gap-2 items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-swords"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>
+      <span class="font-bold">Dégâts :</span>
+      {{ weapon.damage }}
+    </div>
+    <div class="text-2xl ml-10 flex flex-row gap-2 items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span class="font-bold">Portée :</span>
+      {{ weapon.range }}
+    </div>
+    <div class="text-2xl ml-10 flex flex-row gap-2 items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="6" y2="12"/><line x1="12" x2="16" y1="12" y2="10"/></svg>
+      <span class="font-bold">Vitesse :</span>
+      {{ weapon.speed }}
+    </div>
+
+    <div class="flex justify-between mt-5">
+      <!-- Retour BTN -->
+      <button type="button" class="btn btn-active btn-neutral mt-5" (click)="goBack()">Retour</button>
+
+      <!-- Suppr BTN -->
+      <button class="btn btn-active btn-error mt-5 ml-10" onclick="my_modal_5.showModal()">Supprimer</button>
+      <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">ATTENTION</h3>
+          <p class="py-4">Voulez-vous vraiment supprimer cette arme ?</p>
+          <div class="modal-action">
+            <form method="dialog" class="flex flex-row">
+              <!-- if there is a button in form, it will close the modal -->
+              <a [routerLink]="['/weapons']" class="flex items-center">
+                <button type="button" class="btn btn-active btn-error mr-5" (click)="delete()">Supprimer</button>
+              </a>
+              <button class="btn">Fermer</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Modifier BTN -->
+      <a [routerLink]="['/weaponModif', weapon.id]" class="flex items-center">
+        <button type="button" class="btn btn-info mt-5 ml-10">Modifier</button>
+      </a>
+    </div>
+  }
+</div>
