@@ -46,8 +46,12 @@ export class WeaponCreateComponent {
     // Initialize the form with default values and validators
     this.weaponForm = new FormGroup({
       name: new FormControl(this.weapon?.name, [Validators.required]),  // Name is required
+      damage: new FormControl(this.weapon?.damage),
+      range: new FormControl(this.weapon?.range),
+      speed: new FormControl(this.weapon?.speed),
     }, { validators: this.totalStatsValidator() });  // Add custom validator here
   }
+
 
   // Custom validator to check totalStats
   totalStatsValidator(): ValidatorFn {
@@ -71,8 +75,9 @@ export class WeaponCreateComponent {
 
     switch (type) {
       case 'damage':
-        if (this.damage < 5) {  // Limite à 5 et vérifie qu'il reste des points
+        if (this.damage < 5 && this.weaponForm) {  // Limite à 5 et vérifie qu'il reste des points
           this.damage++;
+          this.weaponForm.get('damage')?.setValue(this.damage);
           this.totalStats!++;
         } else {
           this.messageService.add("Les dégâts ne peuvent pas dépasser 5");
@@ -80,8 +85,9 @@ export class WeaponCreateComponent {
         break;
 
       case 'range':
-        if (this.range < 5) {  // Limite à 5 et vérifie qu'il reste des points
+        if (this.range < 5 && this.weaponForm) {  // Limite à 5 et vérifie qu'il reste des points
           this.range++;
+          this.weaponForm.get('range')?.setValue(this.range);
           this.totalStats!++;
         } else {
           this.messageService.add("La portée ne peut pas dépasser 5");
@@ -89,8 +95,9 @@ export class WeaponCreateComponent {
         break;
 
       case 'speed':
-        if (this.speed < 5) {  // Limite à 5 et vérifie qu'il reste des points
+        if (this.speed < 5 && this.weaponForm) {  // Limite à 5 et vérifie qu'il reste des points
           this.speed++;
+          this.weaponForm.get('speed')?.setValue(this.speed);
           this.totalStats!++;
         } else {
           this.messageService.add("La vitesse ne peut pas dépasser 5");
@@ -114,8 +121,9 @@ export class WeaponCreateComponent {
 
     switch (type) {
       case 'damage':
-        if (this.damage > -5) {  // Limite à -5
+        if (this.damage > -5 && this.weaponForm) {  // Limite à -5
           this.damage--;
+          this.weaponForm.get('damage')?.setValue(this.damage);
           this.totalStats!--;
         } else {
           this.messageService.add("Les dégâts ne peuvent pas être inférieurs à -5");
@@ -123,8 +131,9 @@ export class WeaponCreateComponent {
         break;
 
       case 'range':
-        if (this.range > -5) {  // Limite à -5
+        if (this.range > -5 && this.weaponForm) {  // Limite à -5
           this.range--;
+          this.weaponForm.get('range')?.setValue(this.range);
           this.totalStats!--;
         } else {
           this.messageService.add("La portée ne peut pas être inférieure à -5");
@@ -132,8 +141,9 @@ export class WeaponCreateComponent {
         break;
 
       case 'speed':
-        if (this.speed > -5) {  // Limite à -5
+        if (this.speed > -5 && this.weaponForm) {  // Limite à -5
           this.speed--;
+          this.weaponForm.get('speed')?.setValue(this.speed);
           this.totalStats!--;
         } else {
           this.messageService.add("La vitesse ne peut pas être inférieure à -5");
@@ -156,13 +166,14 @@ export class WeaponCreateComponent {
   saveWeapon(): void {
     if (this.weaponForm?.valid) {
       const formValues = this.weaponForm.value;
+      console.log(formValues)
 
       if (this.weapon) {
         this.weapon.name = formValues.name;
         this.weapon.damage = formValues.damage;
         this.weapon.range = formValues.range;
         this.weapon.speed = formValues.speed;
-        this.weaponService.updateWeapon(this.weapon);
+        this.weaponService.addWeapon(this.weapon);
       }
 
       this.messageService.add("Modification enregistrée !");

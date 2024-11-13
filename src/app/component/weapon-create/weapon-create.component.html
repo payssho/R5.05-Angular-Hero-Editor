@@ -4,11 +4,11 @@
       <h2 class="text-4xl font-bold ml-3">Créer une arme</h2>
 
       @if (weapon) {
-        <div class="text-2xl ml-10">
+        <div class="text-2xl ml-2 flex flex-col">
           <span class="font-bold">Nom:</span>
-          <input class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" [(ngModel)]="weapon.name" placeholder="Nom de l'arme">
-          @if (name?.valid && (name?.touched || name?.dirty)) {
-            <small>Le nom est obligatoire</small>
+          <input formControlName="name" class="text-2xl ml-5 mt-5 input input-bordered input-info w-full max-w-xs" placeholder="Nom de l'arme">
+          @if (!name?.valid) {
+            <small class="text-red-700">Le nom est obligatoire</small>
           }
         </div>
       }
@@ -40,7 +40,7 @@
 
       <div class="flex justify-between mt-5">
         <button type="button" class="btn btn-error" (click)="back()">Retour</button>
-        <button type="submit" [disabled]="weaponForm.invalid" class="btn btn-info" (click)="saveWeapon()">Enregistrer</button>
+        <button type="submit" [disabled]="weaponForm.invalid" class="btn btn-info">Enregistrer</button>
       </div>
     </div>
   </form>

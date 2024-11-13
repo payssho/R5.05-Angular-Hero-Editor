@@ -65,7 +65,7 @@ export class WeaponModifComponent {
       case 'damage':
         if (this.damage < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.damage++;
-          this.totalStats!--;
+          this.totalStats!++;
         } else {
           this.messageService.add("Les dégâts ne peuvent pas dépasser 5 ou plus de points disponibles");
         }
@@ -74,7 +74,7 @@ export class WeaponModifComponent {
       case 'range':
         if (this.range < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.range++;
-          this.totalStats!--;
+          this.totalStats!++;
         } else {
           this.messageService.add("La portée ne peut pas dépasser 5 ou plus de points disponibles");
         }
@@ -83,7 +83,7 @@ export class WeaponModifComponent {
       case 'speed':
         if (this.speed < 5) {  // Limite à 5 et vérifie qu'il reste des points
           this.speed++;
-          this.totalStats!--;
+          this.totalStats!++;
         } else {
           this.messageService.add("La vitesse ne peut pas dépasser 5 ou plus de points disponibles");
         }
