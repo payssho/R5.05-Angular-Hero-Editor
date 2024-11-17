@@ -1,3 +1,18 @@
+<!-- Retour BTN -->
+<button class="btn btn-active btn-neutral mt-5 text-xl" onclick="my_modal_5.showModal()"> <- Retour</button>
+<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="text-3xl font-bold">Attention</h3>
+    <p class="py-4">Êtes-vous sûr de revenir en arrière ? Toutes modifications seront perdues</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button type="button" class="btn btn-erreur mr-5" (click)="back()">Confirmer</button>
+        <button class="btn">Annuler</button>
+      </form>
+    </div>
+  </div>
+</dialog>
 <div class="mt-10 ml-1.5 bg-base-300 rounded-2xl bg-base-300 items-center p-10">
 
   @if (hero) {
@@ -45,22 +60,6 @@
     </div>
 
     <!-- Gestion de la somme des compétences -->
-      <div class="flex justify-between mt-5">
-      <button class="btn btn-active btn-neutral" onclick="my_modal_5.showModal()">Retour</button>
-      <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
-          <h3 class="text-3xl font-bold">Attention</h3>
-          <p class="py-4">Êtes-vous sûr de revenir en arrière ? Toutes modifications seront perdues</p>
-          <div class="modal-action">
-            <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
-              <button type="button" class="btn btn-erreur mr-5" (click)="back()">Confirmer</button>
-              <button class="btn">Annuler</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-        <button type="button" class="btn btn-info ml-20" (click)="saveHero()">Enregistrer</button>
-      </div>
+    <button type="button" class="btn btn-success text-2xl ml-30" (click)="saveHero()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>Enregistrer</button>
   }
 </div>

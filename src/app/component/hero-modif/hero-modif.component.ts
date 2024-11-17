@@ -141,18 +141,33 @@ export class HeroModifComponent {
 
 
   /**
-   * Enregistre en base les modification du hero
-    */
+   * Enregistre en base les modifications du hero
+   */
   saveHero(): void {
-    if (this.hero) {
-      this.hero.attack = this.attack ?? 0;
-      this.hero.health = this.health ?? 0;
-      this.hero.defense = this.defense ?? 0;
-      this.heroService.updateHero(this.hero)
+    if (this.hero && this.hero.id) {  // Vérifie que le héros a un ID
+      // Crée un objet de mise à jour avec les propriétés modifiées
+      const updates: Partial<HeroInterface> = {
+        name: this.hero.name,
+        attack: this.attack ?? this.hero.attack,
+        health: this.health ?? this.hero.health,
+        defense: this.defense ?? this.hero.defense,
+        favorite: this.hero.favorite // Si vous modifiez la propriété favorite, vous pouvez l'ajouter ici
+      };
+
+      // Met à jour le héros dans la base de données
+      this.heroService.updateHero(this.hero.id, updates).then(() => {
+        this.messageService.add("Modification enregistrée !");
+        this.location.back(); // Retour à la page précédente après la mise à jour
+      }).catch(error => {
+        this.messageService.add("Erreur lors de la mise à jour du héros.");
+        console.error(error);
+      });
+    } else {
+      this.messageService.add("Veuillez renseigner un ID de héros valide");
     }
-    this.messageService.add("Modification enregistrée !")
-    this.location.back(); // Méthode pour revenir à la page précédente
   }
+
+
 
   /**
    * Go back

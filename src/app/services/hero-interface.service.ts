@@ -64,14 +64,15 @@ export class HerointerfaceService {
   }
 
   /**
-   * Modifie les caractéristique d'un hero dans la BD
-   * @param hero
+   * Met à jour les caractéristiques d'un héros dans la BD
+   * @param heroId ID du héros
+   * @param updates Objet contenant les mises à jour
    */
-  updateHero(hero: HeroInterface): void {
+  updateHero(heroId: string | undefined, updates: Partial<HeroInterface>): Promise<void> {
     // Récupération du DocumentReference
-    const heroDocument = doc(this.firestore, HerointerfaceService.url + "/" + hero.id);
-    // Update du document à partir du JSON et du documentReference
-    let newHeroJSON = {id: hero.id, name: hero.name, health: hero.health, attack: hero.attack, defense: hero.defense, favorite: hero.favorite};
-    updateDoc(heroDocument, newHeroJSON);
+    const heroDocument = doc(this.firestore, `${HerointerfaceService.url}/${heroId}`);
+    // Update partiel du document
+    return updateDoc(heroDocument, updates);
   }
+
 }

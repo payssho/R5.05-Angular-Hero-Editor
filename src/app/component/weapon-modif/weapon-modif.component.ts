@@ -142,19 +142,31 @@ export class WeaponModifComponent {
    */
   saveWeapon(): void {
     if (this.totalStats === 0) {
-      if (this.weapon) {
-        this.weapon.damage = this.damage ?? 0;
-        this.weapon.range = this.range ?? 0;
-        this.weapon.speed = this.speed ?? 0;
-        this.weaponService.updateWeapon(this.weapon);
+      if (this.weapon && this.weapon.id) {
+        // Création de l'objet updates avec les nouvelles valeurs
+        const updates: Partial<WeaponInterface> = {
+          name: this.weapon.name, // Ajout de la mise à jour du nom
+          damage: this.damage ?? 0,
+          range: this.range ?? 0,
+          speed: this.speed ?? 0
+        };
+
+        // Appel à updateWeapon pour enregistrer les modifications
+        this.weaponService.updateWeapon(this.weapon.id, updates).then(() => {
+          this.messageService.add("Modification enregistrée !");
+          this.location.back(); // Retour à la page précédente
+        }).catch(error => {
+          this.messageService.add("Erreur lors de l'enregistrement des modifications.");
+          console.error(error);
+        });
+      } else {
+        this.messageService.add("ID de l'arme non valide.");
       }
-      this.messageService.add("Modification enregistrée !");
-      this.location.back();
     } else {
       this.messageService.add("La somme de l’attaque, vitesse et portée doit être égale à 0 !");
     }
-
   }
+
 
   /**
    * Retour

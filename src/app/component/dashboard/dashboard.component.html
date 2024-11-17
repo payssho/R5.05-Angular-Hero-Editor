@@ -35,7 +35,7 @@
                     [class.btn-neutral] ="weapon === selectedWeapon"
                     [class.btn-primary] ="weapon !== selectedWeapon"
                     (click)="onSelectWeapon(weapon)">
-              <a [routerLink]="['/heroeDetails', weapon.id]" class="flex items-center">
+              <a [routerLink]="['/weaponDetails', weapon.id]" class="flex items-center">
                 <span class="name text-xl"> - {{weapon.name}}</span>
               </a>
             </button>

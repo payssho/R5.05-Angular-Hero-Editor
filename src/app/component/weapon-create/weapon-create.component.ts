@@ -12,6 +12,7 @@ import { Location, UpperCasePipe } from "@angular/common";
 import { WeaponInterface } from "../../data/weaponInterface";
 import { WeaponService } from "../../services/weapon.service";
 import { MessageService } from "../../services/message.service";
+import {v4 as uuidv4} from "uuid";
 
 @Component({
   selector: 'app-weapon-create',
@@ -19,7 +20,6 @@ import { MessageService } from "../../services/message.service";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    UpperCasePipe
   ],
   templateUrl: './weapon-create.component.html',
   styleUrl: './weapon-create.component.css'
@@ -28,7 +28,7 @@ export class WeaponCreateComponent {
 
   weaponForm?: FormGroup;  // Define the FormGroup
   weapon?: WeaponInterface = {
-    id: 0,
+    id: uuidv4(), // Génère un ID unique
     favorite: false,
     name: "",
     damage: 1,

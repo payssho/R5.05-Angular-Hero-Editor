@@ -5,6 +5,7 @@ import {HeroService} from "../../services/hero.service";
 import {HerointerfaceService} from "../../services/hero-interface.service";
 import {MessageService} from "../../services/message.service";
 import {HeroInterface} from "../../data/heroInterface";
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-hero-create',
@@ -12,7 +13,6 @@ import {HeroInterface} from "../../data/heroInterface";
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    UpperCasePipe
   ],
   templateUrl: './hero-create.component.html',
   styleUrl: './hero-create.component.css'
@@ -20,7 +20,7 @@ import {HeroInterface} from "../../data/heroInterface";
 export class HeroCreateComponent {
 
   hero?: HeroInterface = {
-    id: 0,
+    id: uuidv4(), // Génère un ID unique
     name: "",
     attack: 0,
     health: 0,

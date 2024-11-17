@@ -12,7 +12,6 @@ import { MessageService } from "../../services/message.service";
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    UpperCasePipe,
     FormsModule,
     RouterLink,
     NgClass
@@ -64,10 +63,21 @@ export class WeaponDetailComponent {
    */
   updateFavorite(): void {
     this.isFavorite = !this.isFavorite; // Inverse l'état de l'étoile
-    if (this.weapon) {
-      this.weapon.favorite = this.isFavorite;
-      this.weaponService.updateWeapon(this.weapon);
-      this.messageService.add(this.isFavorite ? "Arme ajoutée aux favoris" : "Arme enlevée des favoris");
+    if (this.weapon && this.weapon.id) {
+      // Mise à jour du champ favorite uniquement
+      const updates: Partial<WeaponInterface> = {
+        favorite: this.isFavorite
+      };
+
+      this.weaponService.updateWeapon(this.weapon.id, updates).then(() => {
+        this.messageService.add(this.isFavorite ? "Arme ajoutée aux favoris" : "Arme enlevée des favoris");
+      }).catch(error => {
+        this.messageService.add("Erreur lors de la mise à jour des favoris.");
+        console.error(error);
+      });
+    } else {
+      this.messageService.add("ID de l'arme non valide.");
     }
   }
+
 }

@@ -1,8 +1,11 @@
+import {FieldValue} from "firebase/firestore";
+
 export interface HeroInterface {
-  id: number;
+  id?: string;
   name: string;
-  attack: number;
   health: number;
+  attack: number;
   defense: number;
   favorite: boolean;
+  weaponId?: string | FieldValue; // ID de l'arme assignée (optionnel)
 }

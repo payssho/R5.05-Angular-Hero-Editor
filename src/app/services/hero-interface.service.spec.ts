@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HeroInterfaceService } from './hero-interface.service';
+import { HerointerfaceService } from './hero-interface.service';
 
 describe('HeroInterfaceService', () => {
-  let service: HeroInterfaceService;
+  let service: HerointerfaceService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HeroInterfaceService);
+    service = TestBed.inject(HerointerfaceService);
   });
 
   it('should be created', () => {
