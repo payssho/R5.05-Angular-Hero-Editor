@@ -6,6 +6,9 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
 import { WeaponService } from "../../services/weapon.service";
 import { Location } from '@angular/common';
 import { MessageService } from "../../services/message.service";
+import {HeroInterface} from "../../data/heroInterface";
+import {HeroService} from "../../services/hero.service";
+import {HerointerfaceService} from "../../services/hero-interface.service";
 
 @Component({
   selector: 'app-weapon-detail',
@@ -28,14 +31,20 @@ export class WeaponDetailComponent {
   weaponId: string | null | undefined;
   weapon?: WeaponInterface;
   isFavorite: boolean | undefined; // Étoile non favorite par défaut
+  assignedHero?: HeroInterface;
 
-  constructor(private weaponService: WeaponService, private location: Location, private messageService: MessageService) {}
+  constructor(private weaponService: WeaponService, private location: Location, private messageService: MessageService, private heroService: HerointerfaceService) {}
 
   ngOnInit(): void {
     this.weaponId = this.route.snapshot.paramMap.get('id');
     if (this.weaponId != null) {
       this.weaponService.getWeapon(this.weaponId).subscribe(weapon => {
         this.weapon = weapon;
+        if (this.weapon.assignedTo) {
+          this.heroService.getHero(this.weapon.assignedTo).subscribe(hero => {
+            this.assignedHero = hero;
+          });
+        }
         this.isFavorite = this.weapon?.favorite;
       });
     }

@@ -46,10 +46,23 @@ export class HeroesComponent {
     this.messageService.add(`${hero.name} est le héro sélectionné.`);
   }
 
+  //Sort heros
+  sortHeros(sortMethod: string): void {
+    if (!this.heroes || this.heroes.length === 0) {
+      return; // Si la liste est vide ou non définie, ne rien faire
+    }
 
-  //GETTER
-  // getHeroes(): void {
-  //   this.heroService.getHeroes()
-  //     .subscribe(heroes => this.heroes = heroes);
-  // }
+    // Trier les héros selon la méthode choisie
+    this.heroes.sort((a, b) => {
+      if (sortMethod === 'attack') {
+        return b.attack - a.attack;
+      } else if (sortMethod === 'health') {
+        return b.health - a.health;
+      } else if (sortMethod === 'defense') {
+        return b.defense - a.defense;
+      }
+      return 0;
+    });
+  }
+
 }

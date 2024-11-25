@@ -40,4 +40,23 @@ export class WeaponsComponent {
     this.messageService.add(`${weapon.name} est l'arme sélectionné.`);
   }
 
+  //Sort heros
+  sortWeapon(sortMethod: string): void {
+    if (!this.weapons || this.weapons.length === 0) {
+      return; // Si la liste est vide ou non définie, ne rien faire
+    }
+
+    // Trier les héros selon la méthode choisie
+    this.weapons.sort((a, b) => {
+      if (sortMethod === 'damage') {
+        return b.damage - a.damage;
+      } else if (sortMethod === 'range') {
+        return b.range - a.range;
+      } else if (sortMethod === 'speed') {
+        return b.speed - a.speed;
+      }
+      return 0;
+    });
+  }
+
 }

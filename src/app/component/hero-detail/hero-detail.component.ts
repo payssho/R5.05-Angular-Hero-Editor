@@ -34,7 +34,9 @@ export class HeroDetailComponent {
   isFavorite: boolean | undefined; // Étoile non favorite par défaut
   availableWeapons: WeaponInterface[] = [];
   selectedWeaponId: string | undefined;
-  currentWeapon: WeaponInterface | undefined;
+  currentWeapon: WeaponInterface | undefined | null;
+  currentHelmet: undefined;
+  helmets: undefined;
 
   constructor(private heroService: HerointerfaceService, private location: Location, private messageService: MessageService, private weaponService: WeaponService) {}
 

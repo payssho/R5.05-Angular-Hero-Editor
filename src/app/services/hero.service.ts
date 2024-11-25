@@ -4,6 +4,7 @@ import {HeroInterface} from "../data/heroInterface";
 import {Observable, of} from "rxjs";
 import {MessageService} from "./message.service";
 import {doc} from "@angular/fire/firestore";
+import {FieldValue} from "firebase/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class HeroService {
     return of(HEROES);
   }
 
-  getHeroById(id: number | undefined): Observable<HeroInterface | undefined> {
+  getHeroById(id: string | FieldValue | null | undefined): Observable<HeroInterface | undefined> {
     const hero = HEROES.find(hero => hero.id === id);
     return of(hero);
   }

@@ -12,6 +12,7 @@ import {
 } from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 import {HeroInterface} from "../data/heroInterface";
+import {FieldValue} from "firebase/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class HerointerfaceService {
    * Récupère un hero par son id dans la base
    * @param id du hero
    */
-  getHero(id: string): Observable<HeroInterface> {
+  getHero(id: string | FieldValue): Observable<HeroInterface> {
     const heroDocument = doc(this.firestore, HerointerfaceService.url + "/" + id);
 
     return docData(heroDocument, { idField: 'id' }) as Observable<HeroInterface>;
