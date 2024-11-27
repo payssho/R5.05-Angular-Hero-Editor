@@ -1,0 +1,16 @@
+<button type="button" class="btn btn-active btn-neutral mt-5 text-xl" (click)="goBack()"> <- Retour</button>
+<div class="mt-10 ml-1.5 bg-base-300 rounded-2xl items-center p-10">
+  @if (shield) {
+    <h2 class="text-4xl font-bold ml-3">DÉTAIL DU BOUCLIER</h2>
+    <div class="text-2xl ml-10"><span class="font-bold">Nom: </span>{{ shield.name }}</div>
+    <h2 class="text-4xl font-bold ml-3 mt-10"> CARACTÉRISTIQUES </h2>
+    <div class="text-2xl ml-10 mt-2 flex flex-row gap-2 items-center">
+      <span class="font-bold">Attaque :</span>
+      {{ shield.damage }}
+    </div>
+    <div class="text-2xl ml-10 flex flex-row gap-2 items-center">
+      <span class="font-bold">Défense :</span>
+      {{ shield.defense }}
+    </div>
+  }
+</div>
