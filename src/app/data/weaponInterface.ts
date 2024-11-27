@@ -1,4 +1,4 @@
-import { FieldValue } from "firebase/firestore"; // Assurez-vous que cette importation est en place
+import { FieldValue } from "firebase/firestore";
 export interface WeaponInterface {
   id?: string;
   name: string;
@@ -6,5 +6,5 @@ export interface WeaponInterface {
   damage: number;
   speed: number;
   favorite: boolean;
-  assignedTo?: string | null | FieldValue; // ID du héros auquel l'arme est assignée (optionnel)
+  assignedTo?: string | null | FieldValue;
 }
