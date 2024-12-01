@@ -5,13 +5,15 @@ import {HeroService} from "../../services/hero.service";
 import {MessageService} from "../../services/message.service";
 import {RouterLink} from "@angular/router";
 import {HerointerfaceService} from "../../services/hero-interface.service";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-heroes',
   standalone: true,
   imports: [
     HeroDetailComponent,
-    RouterLink
+    RouterLink,
+    FormsModule
   ],
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.css'
@@ -20,19 +22,20 @@ import {HerointerfaceService} from "../../services/hero-interface.service";
 //Les données utiles
 export class HeroesComponent {
 
-  //MAIN
   heroes: HeroInterface[] = [];
+  filteredHeroes: HeroInterface[] = [];
   selectedHero?: HeroInterface;
+
+  filterName: string = ''; // Variable pour stocker le filtre
 
   constructor(private heroService: HerointerfaceService, private messageService: MessageService) {}
 
-  //SETUP
   ngOnInit(): void {
-    // this.getHeroes();
     this.heroService.getHeroes()
       .subscribe(
         (heroes: HeroInterface[]) => {
           this.heroes = heroes;
+          this.filteredHeroes = [...heroes]; // Initialiser la liste filtrée
         },
         error => {
           console.error("Erreur lors de la récupération des héros :", error);
@@ -40,20 +43,17 @@ export class HeroesComponent {
       );
   }
 
-  //SELECTION D'UN HERO
   onSelect(hero: HeroInterface): void {
     this.selectedHero = hero;
     this.messageService.add(`${hero.name} est le héro sélectionné.`);
   }
 
-  //Sort heros
   sortHeros(sortMethod: string): void {
     if (!this.heroes || this.heroes.length === 0) {
-      return; // Si la liste est vide ou non définie, ne rien faire
+      return;
     }
 
-    // Trier les héros selon la méthode choisie
-    this.heroes.sort((a, b) => {
+    this.filteredHeroes.sort((a, b) => {
       if (sortMethod === 'attack') {
         return b.attack - a.attack;
       } else if (sortMethod === 'health') {
@@ -65,4 +65,10 @@ export class HeroesComponent {
     });
   }
 
+  filterHeroesByName(): void {
+    const filter = this.filterName.trim().toLowerCase();
+    this.filteredHeroes = this.heroes.filter(hero =>
+      hero.name.toLowerCase().includes(filter)
+    );
+  }
 }
