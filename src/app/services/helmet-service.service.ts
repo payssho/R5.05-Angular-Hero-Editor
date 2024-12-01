@@ -8,7 +8,7 @@ import {
   setDoc,
   deleteDoc,
   updateDoc,
-  collectionData, docData
+  collectionData, docData, deleteField
 } from '@angular/fire/firestore';
 import { HelmetInterface} from "../data/helmetInterface";
 import { FieldValue } from "firebase/firestore";
@@ -38,7 +38,7 @@ export class HelmetService {
    * Récupère un hero par son id dans la base
    * @param id du hero
    */
-  getHelmetById(id: string | FieldValue): Observable<HelmetInterface> {
+  getHelmetById(id: string | FieldValue | undefined): Observable<HelmetInterface> {
     const helmetDocument = doc(this.firestore, HelmetService.url + "/" + id);
 
     return docData(helmetDocument, { idField: 'id' }) as Observable<HelmetInterface>;
@@ -54,14 +54,20 @@ export class HelmetService {
   }
 
   /**
-   * Met à jour un casque existant.
-   * @param helmetId L'identifiant du casque.
-   * @param updates Les champs à mettre à jour.
-   * @returns Une promesse void.
+   * Met à jour les caractéristiques d'un casque dans la BD
+   * @param helmetId ID du casque
+   * @param updates Objet contenant les mises à jour
    */
-  async updateHelmet(helmetId: string, updates: Partial<HelmetInterface>): Promise<void> {
-    const helmetDoc = doc(this.firestore, `${HelmetService.url}/${helmetId}`);
-    await updateDoc(helmetDoc, updates);
+  updateHelmet(helmetId: string, updates: Partial<HelmetInterface>): Promise<void> {
+    // Vérifier si le champ `assignedTo` doit être supprimé
+    if (updates.assignedTo === null) {
+      updates.assignedTo = deleteField(); // Utilisation de deleteField pour supprimer le champ
+    }
+
+    // Récupération du DocumentReference
+    const helmetDocument = doc(this.firestore, `${HelmetService.url}/${helmetId}`);
+    // Mise à jour partielle du document
+    return updateDoc(helmetDocument, updates);
   }
 
   /**

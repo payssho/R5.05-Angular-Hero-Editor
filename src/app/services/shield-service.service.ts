@@ -8,7 +8,7 @@ import {
   setDoc,
   deleteDoc,
   updateDoc,
-  collectionData, docData
+  collectionData, docData, deleteField
 } from '@angular/fire/firestore';
 import { ShieldInterface } from "../data/shieldInterface";
 import { FieldValue } from "firebase/firestore";
@@ -38,7 +38,7 @@ export class ShieldService {
    * Récupère un hero par son id dans la base
    * @param id du hero
    */
-  getShieldById(id: string | FieldValue): Observable<ShieldInterface> {
+  getShieldById(id: string | FieldValue | undefined): Observable<ShieldInterface> {
     const shieldDocument = doc(this.firestore, ShieldService.url + "/" + id);
 
     return docData(shieldDocument, { idField: 'id' }) as Observable<ShieldInterface>;
@@ -54,14 +54,20 @@ export class ShieldService {
   }
 
   /**
-   * Met à jour un bouclier existant.
-   * @param shieldId L'identifiant du bouclier.
-   * @param updates Les champs à mettre à jour.
-   * @returns Une promesse void.
+   * Met à jour les caractéristiques d'un bouclier dans la BD
+   * @param shieldId ID du bouclier
+   * @param updates Objet contenant les mises à jour
    */
-  async updateShield(shieldId: string, updates: Partial<ShieldInterface>): Promise<void> {
-    const shieldDoc = doc(this.firestore, `${ShieldService.url}/${shieldId}`);
-    await updateDoc(shieldDoc, updates);
+  updateShield(shieldId: string, updates: Partial<ShieldInterface>): Promise<void> {
+    // Vérifier si le champ `assignedTo` doit être supprimé
+    if (updates.assignedTo === null) {
+      updates.assignedTo = deleteField(); // Utilisation de deleteField pour supprimer le champ
+    }
+
+    // Récupération du DocumentReference
+    const shieldDocument = doc(this.firestore, `${ShieldService.url}/${shieldId}`);
+    // Mise à jour partielle du document
+    return updateDoc(shieldDocument, updates);
   }
 
   /**

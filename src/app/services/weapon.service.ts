@@ -41,7 +41,6 @@ export class WeaponService {
   getWeaponById(id: string | FieldValue): Observable<WeaponInterface> {
     const weaponDocument = doc(this.firestore, WeaponService.url + "/" + id);
 
-    console.log("PASSÉ WEAPON")
     return docData(weaponDocument, { idField: 'id' }) as Observable<WeaponInterface>;
   }
 

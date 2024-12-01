@@ -10,6 +10,10 @@ import {MessageService} from "../../services/message.service";
 import {WeaponInterface} from "../../data/weaponInterface";
 import {WeaponService} from "../../services/weapon.service";
 import {deleteField} from "@angular/fire/firestore";
+import {HelmetService} from "../../services/helmet-service.service";
+import {ShieldService} from "../../services/shield-service.service";
+import {HelmetInterface} from "../../data/helmetInterface";
+import {ShieldInterface} from "../../data/shieldInterface";
 
 @Component({
   selector: 'app-hero-detail',
@@ -35,10 +39,15 @@ export class HeroDetailComponent {
   availableWeapons: WeaponInterface[] = [];
   selectedWeaponId: string | undefined;
   currentWeapon: WeaponInterface | undefined | null;
-  currentHelmet: undefined;
-  helmets: undefined;
+  availableHelmets: HelmetInterface[] = [];
+  selectedHelmetId: string | undefined;
+  currentHelmet: HelmetInterface | undefined | null;
+  availableShields: ShieldInterface[] = [];
+  selectedShieldsId: string | undefined;
+  currentShields: ShieldInterface | undefined | null;
 
-  constructor(private heroService: HerointerfaceService, private location: Location, private messageService: MessageService, private weaponService: WeaponService) {}
+  constructor(private heroService: HerointerfaceService, private location: Location, private messageService: MessageService, private weaponService: WeaponService
+  , private helmetService: HelmetService, private shieldService: ShieldService) {}
 
 
   ngOnInit(): void {
@@ -57,11 +66,35 @@ export class HeroDetailComponent {
               console.error('Erreur lors de la récupération de l\'arme :', err);
             }
           });
+          this.shieldService.getShieldById(this.hero.shieldId).subscribe({
+            next: (shield: ShieldInterface) => {
+              this.currentShields = shield;
+              this.selectedShieldsId = this.currentShields.id;
+            },
+            error: (err) => {
+              console.error('Erreur lors de la récupération de l\'arme :', err);
+            }
+          });
+          this.helmetService.getHelmetById(this.hero.helmetId).subscribe({
+            next: (helmet: HelmetInterface) => {
+              this.currentHelmet = helmet;
+              this.selectedHelmetId = this.currentHelmet.id;
+            },
+            error: (err) => {
+              console.error('Erreur lors de la récupération de l\'arme :', err);
+            }
+          });
         }
       });
     }
     this.weaponService.getAvailableWeapons().subscribe(weapons => {
       this.availableWeapons = weapons;
+    });
+    this.helmetService.getHelmets().subscribe(helmets => {
+      this.availableHelmets = helmets;
+    });
+    this.shieldService.getShields().subscribe(shields => {
+      this.availableShields = shields;
     });
   }
 
@@ -98,23 +131,6 @@ export class HeroDetailComponent {
         : "Héros enlevé des favoris";
       this.messageService.add(message);
     });
-  }
-
-  /**
-   * Permet de définir l'arme séléctionnée et de gérer les exceptions
-   * @param weapon
-   */
-  onSelect(weapon: WeaponInterface) : void {
-    this.unassignWeapon();
-    // @ts-ignore
-    if (weapon.damage + this.hero?.attack < 1) {
-      this.messageService.add("Impossible d'ajouter cette arme, l'attaque ne peut pas être négative")
-      return;
-    }
-    this.selectedWeaponId = weapon.id;
-    this.currentWeapon = weapon;
-    this.messageService.add("Arme ajoutée au héro")
-    this.assignWeapon();
   }
 
 
@@ -168,8 +184,172 @@ export class HeroDetailComponent {
       });
   }
 
+  /**
+   * Permet d'assigner en base une arme à un hero
+   */
+  assignShield(): void {
+    if (!this.selectedShieldsId || !this.hero) return;
+
+    const heroId = this.hero.id;
+    const shieldId = this.selectedShieldsId;
+
+    // Met à jour le héros avec l'arme choisie
+    this.heroService.updateHero(heroId, { shieldId }).then(() => {
+      // Met à jour l'arme pour indiquer qu'elle est assignée
+      this.shieldService.updateShield(shieldId, { assignedTo: heroId }).then(() => {
+      });
+    }).catch((error) => {
+      console.error('Erreur lors de l\'assignation du bouclier :', error);
+    });
+  }
+  /**
+   * Permet de retirer l'arme du héros
+   */
+  unassignShield(): void {
+    if (!this.selectedShieldsId) {
+      this.messageService.add("Aucun bouclier n'est sélectionnée pour être désassignée.");
+      return;
+    }
+
+    // Appeler le service pour mettre à jour le champ `assignedTo` de l'arme
+    this.shieldService.updateShield(this.selectedShieldsId, { assignedTo: deleteField() })
+      .then(() => {
+        // Ensuite, mettre à jour le héros pour supprimer l'ID de l'arme
+        if (this.hero && this.hero.shieldId) {
+          this.heroService.updateHero(this.hero.id, { shieldId: deleteField() })
+            .then(() => {
+              this.messageService.add("Le bouclier a été désassignée du héros avec succès.");
+              // Réinitialiser localement les données si nécessaire
+              this.selectedShieldsId = undefined;
+              this.currentShields = undefined;
+            })
+            .catch((error) => {
+              this.messageService.add("Une erreur est survenue lors de la désassignation du bouclier du héros : " + error.message);
+            });
+        }
+      })
+      .catch((error) => {
+        this.messageService.add("Une erreur est survenue lors de la désassignation du bouclier : " + error.message);
+      });
+  }
+
+  /**
+   * Permet d'assigner en base une arme à un hero
+   */
+  assignHelmet(): void {
+    if (!this.selectedHelmetId || !this.hero) return;
+
+    const heroId = this.hero.id;
+    const helmetId = this.selectedHelmetId;
+
+    // Met à jour le héros avec l'arme choisie
+    this.heroService.updateHero(heroId, { helmetId }).then(() => {
+      // Met à jour l'arme pour indiquer qu'elle est assignée
+      this.helmetService.updateHelmet(helmetId, { assignedTo: heroId }).then(() => {
+      });
+    }).catch((error) => {
+      console.error('Erreur lors de l\'assignation du casque :', error);
+    });
+  }
+  /**
+   * Permet de retirer l'arme du héros
+   */
+  unassignHelmet(): void {
+    if (!this.selectedHelmetId) {
+      this.messageService.add("Aucun casque n'est sélectionnée pour être désassignée.");
+      return;
+    }
+
+    // Appeler le service pour mettre à jour le champ `assignedTo` de l'arme
+    this.helmetService.updateHelmet(this.selectedHelmetId, { assignedTo: deleteField() })
+      .then(() => {
+        // Ensuite, mettre à jour le héros pour supprimer l'ID de l'arme
+        if (this.hero && this.hero.helmetId) {
+          this.heroService.updateHero(this.hero.id, { helmetId: deleteField() })
+            .then(() => {
+              this.messageService.add("Le casque a été désassignée du héros avec succès.");
+              // Réinitialiser localement les données si nécessaire
+              this.selectedHelmetId = undefined;
+              this.currentHelmet = undefined;
+            })
+            .catch((error) => {
+              this.messageService.add("Une erreur est survenue lors de la désassignation du casque du héros : " + error.message);
+            });
+        }
+      })
+      .catch((error) => {
+        this.messageService.add("Une erreur est survenue lors de la désassignation du casque : " + error.message);
+      });
+  }
+
 
   heroSelect() {
-    this.messageService.add("Fonctionnalité à ajouter !")
+    // @ts-ignore
+    this.heroService.updateHero(this.hero.id, { currentHero: true })
+
+    // Récupérer la liste des héros
+    this.heroService.getHeroes().subscribe((heroes) => {
+      if (!heroes || heroes.length === 0) {
+        this.messageService.add("Aucun héros trouvé.");
+        return;
+      }
+
+      // Parcourir chaque héros
+      const updates = heroes.map((hero) => {
+        // @ts-ignore
+        if (hero.currentHero && hero.id !== this.hero.id) {
+          // Mettre à jour le héros pour définir currentHero à false
+          return this.heroService.updateHero(hero.id, { currentHero: false })
+            .then(() => {
+              this.messageService.add(`Le statut de currentHero pour le héros ${hero.name} a été mis à jour.`);
+            })
+            .catch((error) => {
+              this.messageService.add(`Une erreur est survenue lors de la mise à jour du héros ${hero.name} : ${error.message}`);
+            });
+        }
+        return Promise.resolve(); // Pas de mise à jour nécessaire
+      });
+
+      // Attendre que toutes les mises à jour soient effectuées
+      Promise.all(updates)
+        .then(() => {
+          this.messageService.add("Le héro a été séléctionné.");
+        })
+        .catch(() => {
+          this.messageService.add("Certaines mises à jour ont échoué.");
+        });
+    }, (error) => {
+      this.messageService.add("Erreur lors de la récupération des héros : " + error.message);
+    });
+  }
+
+  onSelectHelmet(helmet: HelmetInterface) {
+    this.selectedHelmetId = helmet.id;
+    this.currentHelmet = helmet;
+    this.messageService.add("Casque ajoutée au héro")
+    this.assignHelmet();
+  }
+
+  onSelectShield(shield: ShieldInterface) {
+    this.selectedShieldsId = shield.id;
+    this.currentShields = shield;
+    this.messageService.add("BOuclier ajoutée au héro")
+    this.assignShield();
+  }
+
+  /**
+   * Permet de définir l'arme séléctionnée et de gérer les exceptions
+   * @param weapon
+   */
+  onSelect(weapon: WeaponInterface) : void {
+    // @ts-ignore
+    if (weapon.damage + this.hero?.attack < 1) {
+      this.messageService.add("Impossible d'ajouter cette arme, l'attaque ne peut pas être négative")
+      return;
+    }
+    this.selectedWeaponId = weapon.id;
+    this.currentWeapon = weapon;
+    this.messageService.add("Arme ajoutée au héro")
+    this.assignWeapon();
   }
 }

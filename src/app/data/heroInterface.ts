@@ -7,5 +7,8 @@ export interface HeroInterface {
   attack: number;
   defense: number;
   favorite: boolean;
-  weaponId?: string | FieldValue; // ID de l'arme assignée (optionnel)
+  weaponId?: string | FieldValue;
+  helmetId?: string | FieldValue;
+  shieldId?: string | FieldValue;
+  currentHero?: boolean;
 }

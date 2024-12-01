@@ -9,7 +9,7 @@
     </select>
 
     <!-- Filtrer par nom -->
-    <div class="mt-5">
+    <div class="flex mt-5 gap-3">
       <input
         [(ngModel)]="filterName"
         type="text"
@@ -17,7 +17,7 @@
         placeholder="Rechercher par nom"
       />
       <button
-        class="btn btn-active btn-neutral mt-3"
+        class="btn btn-active btn-neutral"
         (click)="filterHeroesByName()"
       >
         Appliquer
