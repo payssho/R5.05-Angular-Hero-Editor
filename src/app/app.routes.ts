@@ -12,9 +12,11 @@ import {HelmetsComponent} from "./component/helmets/helmets.component";
 import {ShieldsComponent} from "./component/shields/shields.component";
 import {HelmetDetailComponent} from "./component/helmet-details/helmet-details.component";
 import {ShieldDetailComponent} from "./component/shield-details/shield-details.component";
+import {WelcomeComponent} from "./component/welcome/welcome.component";
 
 //Toutes les routes menant à des pages
 export const routes: Routes = [
+  { path: '', component: WelcomeComponent },
   { path: 'heroes', component: HeroesComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'shield', component: ShieldsComponent },
