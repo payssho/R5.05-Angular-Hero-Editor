@@ -1,19 +1,8 @@
 # **Nom de l'application**
 
-## **1. Démarrer le serveur**
+## **1. Démarrer l'application**
 
-Pour lancer le serveur de l'application  :
-
-1. Assurez-vous d'avoir installé les dépendances avec :
-   ```bash
-   npm install
-   ```
-2. Lancez le serveur avec :
-   ```bash
-   npm start
-   ```
-
-L'application sera accessible à l'adresse : [http://localhost:4200](http://localhost:4200).
+Pour lancer l'application rendez-vous ici : https://r5-05-angular-hero-editor.vercel.app/
 
 ---
 
