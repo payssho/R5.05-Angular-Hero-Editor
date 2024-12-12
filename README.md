@@ -2,7 +2,7 @@
 
 ## **1. Démarrer l'application**
 
-Pour lancer l'application rendez-vous ici : https://r5-05-angular-hero-editor.vercel.app/
+Pour lancer l'application rendez-vous ici : r5-05-durandm-hero-editor.vercel.app
 
 ---
 
